@@ -1,3 +1,4 @@
+import React from 'react'
 import { StyleSheet, Text, View, Pressable, Platform } from 'react-native'
 
 export default function CustomButton({ onPress, title, hasMarginBtm, theme }) {

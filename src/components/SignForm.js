@@ -30,8 +30,11 @@ export default function SignForm({
         ref={passwordRef}
         returnKeyType={isSignUp ? 'next' : 'done'}
         onSubmitEditing={() => {
-          if (isSignUp) confirmPasswordRef.current.focus()
-          else onSubmit()
+          if (isSignUp) {
+            confirmPasswordRef.current.focus()
+          } else {
+            onSubmit()
+          }
         }}
         hasMarginBtm={isSignUp}
       />

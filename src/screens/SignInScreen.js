@@ -7,23 +7,23 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
-  Alert,
 } from 'react-native'
 import SignForm from '../components/SignForm'
 import SignButtons from '../components/SignButtons'
-import { SignIn, SignUp } from '../libs/auth'
+import { auth } from '../../firebaseConfig'
+import { signIn, signUp } from '../libs/auth'
 
 const SignInScreen = ({ navigation, route }) => {
   // nullish 병합 연산자 - params 지정 안해주면 undefined임
   // undefined 객체 구조 분해 할당 하면 에러 발생하므로
   // 빈 객체로 구조 분해 할당 해 에러 처리
-  const { isSignUp } = route.params || {}
+  const { isSignUp } = route.params ?? {}
   const [form, setForm] = useState({
     email: '',
     password: '',
     confirmPassword: '',
   })
-  const [loading, setLoading] = useState()
+  const [loading, setLoading] = useState(false)
 
   const createChangeTextHandler = name => value => {
     setForm({ ...form, [name]: value })
@@ -35,10 +35,10 @@ const SignInScreen = ({ navigation, route }) => {
     const info = { email, password }
     setLoading(true)
     try {
-      const { user } = isSignUp ? await SignUp(info) : await SignIn(info)
+      const { user } = isSignUp ? await signIn(info) : await signUp(info)
       console.log(user)
     } catch (e) {
-      Alert.alert('로그인 실패', e)
+      console.log('로그인 실패 ', e)
     } finally {
       setLoading(false)
     }

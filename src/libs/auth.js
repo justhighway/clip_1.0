@@ -6,20 +6,20 @@ import {
   signOut,
 } from 'firebase/auth'
 
-export const SignIn = async ({ email, password }) => {
-  return await signInWithEmailAndPassword(auth, email, password)
+export const signIn = ({ email, password }) => {
+  return signInWithEmailAndPassword(auth, email, password)
 }
 
-export const SignUp = ({ email, password }) => {
+export const signUp = ({ email, password }) => {
   return createUserWithEmailAndPassword(auth, email, password)
 }
 
-export const SubscribeAuth = callback => {
+export const subscribeAuth = callback => {
   return onAuthStateChanged(auth, async user => {
     callback(user)
   })
 }
 
-export const SignOut = () => {
+export const signOutt = () => {
   return signOut(auth)
 }

@@ -9,8 +9,11 @@ export default function SignButtons({ isSignUp, onSubmit, loading }) {
   const secondaryTitle = isSignUp ? '로그인' : '회원가입'
 
   const onSecondaryButtonPress = () => {
-    if (isSignUp) navigation.goBack() // signUp 화면일 때 뒤로 가기
-    else navigation.push('SignIn', { isSignUp: true }) // 아니면 isSignUp true 주면서 push
+    if (isSignUp) {
+      navigation.goBack() // signUp일 때 뒤로 가기
+    } else {
+      navigation.push('SignIn', { isSignUp: true }) // 아니면 isSignUp true 주면서 push
+    }
   }
   if (loading) {
     return (
