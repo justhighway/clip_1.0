@@ -1,3 +1,5 @@
+import HomeScreen from '../screens/HomeScreen'
+import KakaoLogin from '../screens/KakaoLogin'
 import SignInScreen from '../screens/SignInScreen'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
@@ -9,6 +11,8 @@ const RootStack = () => {
       initialRouteName="SignIn"
       screenOptions={{ headerShown: false }}>
       <Stack.Screen name="SignIn" component={SignInScreen} />
+      <Stack.Screen name="KakaoLogin" component={KakaoLogin} />
+      <Stack.Screen name="HomeScreen" component={HomeScreen} />
     </Stack.Navigator>
   )
 }

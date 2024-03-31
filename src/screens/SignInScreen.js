@@ -10,8 +10,10 @@ import {
 } from 'react-native'
 import SignForm from '../components/SignForm'
 import SignButtons from '../components/SignButtons'
-import { auth } from '../../firebaseConfig'
 import { signIn, signUp } from '../libs/auth'
+import OAuthButtons from '../components/OAuthButtons'
+import { FontAwesome6 } from '@expo/vector-icons'
+import AnimatedTitle from '../components/AnimatedTitle'
 
 const SignInScreen = ({ navigation, route }) => {
   // nullish 병합 연산자 - params 지정 안해주면 undefined임
@@ -35,8 +37,15 @@ const SignInScreen = ({ navigation, route }) => {
     const info = { email, password }
     setLoading(true)
     try {
-      const { user } = isSignUp ? await signIn(info) : await signUp(info)
-      console.log(user)
+      const { user } = isSignUp ? await signUp(info) : await signIn(info)
+      if (isSignUp) {
+        console.log('회원가입 성공', user)
+        navigation.navigate('HomeScreen', { screen: 'HomeScreen' })
+      } else {
+        console.log('로그인 성공:', user)
+        navigation.navigate('HomeScreen', { screen: 'HomeScreen' })
+      }
+      // console.log(user)
     } catch (e) {
       console.log('로그인 실패 ', e)
     } finally {
@@ -44,13 +53,21 @@ const SignInScreen = ({ navigation, route }) => {
     }
   }
 
+  //kakao module - 나중에 삭제
+  const kakaoOnSubmit = async () => {
+    navigation.navigate('KakaoLogin', { screen: 'KakaoLogin' })
+  }
+
   return (
     <KeyboardAvoidingView
       style={styles.KeyboardAvoidingView}
       behavior={Platform.select({ ios: 'padding' })}>
       <SafeAreaView style={styles.container}>
-        <Text style={styles.text}>CLIP</Text>
-        <View style={styles.form}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.titleText}>CLIP으로,</Text>
+          <AnimatedTitle />
+        </View>
+        <View style={styles.formContainer}>
           <SignForm
             isSignUp={isSignUp}
             onSubmit={onSubmit}
@@ -62,6 +79,9 @@ const SignInScreen = ({ navigation, route }) => {
             onSubmit={onSubmit}
             loading={loading}
           />
+        </View>
+        <View style={styles.oauthContainer}>
+          <OAuthButtons />
         </View>
       </SafeAreaView>
     </KeyboardAvoidingView>
@@ -78,14 +98,29 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
   },
-  text: {
-    fontSize: 32,
-    fontWeight: 'bold',
+  titleContainer: {
+    flex: 0.5,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  form: {
-    marginTop: 64,
+  titleText: {
+    fontSize: 40,
+    fontWeight: 'bold',
+    color: '#403257',
+    marginTop: 30,
+  },
+  formContainer: {
+    flex: 1,
     width: '100%',
     paddingHorizontal: 16,
+    justifyContent: 'center',
+  },
+  oauthContainer: {
+    flex: 0.5,
+    width: '100%',
+    paddingHorizontal: 16,
+    justifyContent: 'center',
   },
 })
 
