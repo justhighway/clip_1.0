@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "clip1.0",
-    "slug": "clip1.0",
+    "name": "clip1_0",
+    "slug": "clip1_0",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,6 +25,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "50fbc4b8-87bd-42f9-816e-65b93c969ddd"
+      }
     }
   }
 }

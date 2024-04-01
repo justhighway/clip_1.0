@@ -26,6 +26,8 @@ const SignInScreen = ({ navigation, route }) => {
     confirmPassword: '',
   })
   const [loading, setLoading] = useState(false)
+  const [ATK, setATK] = useState('')
+  const [uid, setUid] = useState('')
 
   const createChangeTextHandler = name => value => {
     setForm({ ...form, [name]: value })
@@ -38,14 +40,15 @@ const SignInScreen = ({ navigation, route }) => {
     setLoading(true)
     try {
       const { user } = isSignUp ? await signUp(info) : await signIn(info)
-      if (isSignUp) {
-        console.log('회원가입 성공', user)
-        navigation.navigate('HomeScreen', { screen: 'HomeScreen' })
+      if (user) {
+        const accessToken = isSignUp
+          ? user.stsTokenManager.accessToken
+          : user.sts.stsTokenManager.accessToken
+        console.log('AccessToken:', accessToken)
+        navigation.navigate('HomeScreen', { accessToken })
       } else {
-        console.log('로그인 성공:', user)
-        navigation.navigate('HomeScreen', { screen: 'HomeScreen' })
+        console.log('로그인 또는 회원가입에 실패했습니다.')
       }
-      // console.log(user)
     } catch (e) {
       console.log('로그인 실패 ', e)
     } finally {

@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import React from 'react'
+import React, { useState } from 'react'
 import { SafeAreaView, StyleSheet } from 'react-native'
 import WebView from 'react-native-webview'
 import { useNavigation } from '@react-navigation/native'
@@ -9,7 +9,9 @@ const REDIRECT_URI = 'http://192.168.0.190:19006/Home'
 const INJECTED_JAVASCRIPT = `window.ReactNativeWebView.postMessage('message from webView')`
 
 export default function KakaoLogin() {
+  const [atk, setAtk] = useState('')
   const navigation = useNavigation()
+
   const kakaoLoginWebView = data => {
     const exp = 'code='
     const condition = data.indexOf(exp)
@@ -28,34 +30,12 @@ export default function KakaoLogin() {
       const data = await response.json()
       const accessToken = data.access_token
       console.log('AccessToken:', accessToken)
-      // requestUserInfo(accessToken)
-      storeData(accessToken)
+      // 상태 업데이트
+      setAtk(accessToken)
+      // navigation.navigate() 메서드 호출 시 최신 상태의 atk를 사용
+      navigation.navigate('HomeScreen', { accessToken: accessToken })
     } catch (error) {
       console.log('error: ', error)
-    }
-    navigation.navigate('HomeScreen', { screen: 'HomeScreen' })
-  }
-
-  // const requestUserInfo = async accessToken => {
-  //   try {
-  //     const response = await fetch('https://kapi.kakao.com/v2/user/me', {
-  //       headers: {
-  //         Authorization: `Bearer ${accessToken}`,
-  //       },
-  //     })
-  //     const data = await response.json()
-  //     const userEmail = data.kakao_account.email
-  //     console.log('user email:', userEmail)
-  //   } catch (error) {
-  //     console.log('error:', error)
-  //   }
-  // }
-
-  const storeData = async returnValue => {
-    try {
-      await AsyncStorage.setItem('userAccessToken', returnValue)
-    } catch (error) {
-      console.log('error', error)
     }
   }
 
