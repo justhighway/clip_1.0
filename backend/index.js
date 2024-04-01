@@ -12,9 +12,9 @@ app.use(bodyParser.json())
 // MySQL 연결 설정
 const connection = mysql.createConnection({
   host: 'localhost',
-  user: 'your_mysql_username',
-  password: 'your_mysql_password',
-  database: 'your_database_name',
+  user: 'root',
+  password: 'qkr0wo2gus5',
+  database: 'clip',
 })
 
 connection.connect(error => {
