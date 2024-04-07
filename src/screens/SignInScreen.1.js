@@ -3,7 +3,6 @@ import {
   View,
   Text,
   SafeAreaView,
-  StyleSheet,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -13,8 +12,9 @@ import SignButtons from '../components/SignButtons'
 import { signIn, signUp } from '../libs/auth'
 import OAuthButtons from '../components/OAuthButtons'
 import AnimatedTitle from '../components/AnimatedTitle'
+import { styles } from './SignInScreen'
 
-const SignInScreen = ({ navigation, route }) => {
+export const SignInScreen = ({ navigation, route }) => {
   const { isSignUp } = route.params ?? {}
   const [form, setForm] = useState({
     email: '',
@@ -86,41 +86,3 @@ const SignInScreen = ({ navigation, route }) => {
     </KeyboardAvoidingView>
   )
 }
-
-const styles = StyleSheet.create({
-  KeyboardAvoidingView: {
-    flex: 1,
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
-  },
-  titleContainer: {
-    flex: 0.5,
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  titleText: {
-    fontSize: 40,
-    fontWeight: 'bold',
-    color: '#403257',
-    marginTop: 30,
-  },
-  formContainer: {
-    flex: 1,
-    width: '100%',
-    paddingHorizontal: 16,
-    justifyContent: 'center',
-  },
-  oauthContainer: {
-    flex: 0.5,
-    width: '100%',
-    paddingHorizontal: 16,
-    justifyContent: 'center',
-  },
-})
-
-export default SignInScreen

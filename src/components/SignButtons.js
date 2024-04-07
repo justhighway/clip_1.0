@@ -26,7 +26,6 @@ export default function SignButtons({ isSignUp, onSubmit, loading }) {
     )
   }
 
-  // 나중에 카카오 버튼은 다른 걸로 수정하기
   return (
     <View style={styles.buttons}>
       <CustomButton title={primaryTitle} hasMarginBtm onPress={onSubmit} />
