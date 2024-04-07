@@ -1,3 +1,4 @@
+// frontend/src/screens/SignInScreen.js:
 import React, { useState } from 'react'
 import {
   View,
@@ -22,8 +23,6 @@ const SignInScreen = ({ navigation, route }) => {
     confirmPassword: '',
   })
   const [loading, setLoading] = useState(false)
-  const [ATK, setATK] = useState('')
-  const [uid, setUid] = useState('')
 
   const createChangeTextHandler = name => value => {
     setForm(prevForm => ({ ...prevForm, [name]: value }))
@@ -32,21 +31,20 @@ const SignInScreen = ({ navigation, route }) => {
   const onSubmit = async () => {
     Keyboard.dismiss()
     const { email, password } = form
-    const info = { email, password }
     setLoading(true)
     try {
-      const { user } = isSignUp ? await signUp(info) : await signIn(info)
-      if (user) {
-        const accessToken = isSignUp
-          ? user.stsTokenManager.accessToken
-          : user.sts.stsTokenManager.accessToken
-        console.log('AccessToken:', accessToken)
-        navigation.navigate('HomeScreen', { accessToken })
+      const data = isSignUp
+        ? await signUp({ email, password })
+        : await signIn({ email, password })
+      if (data && data.accessToken) {
+        // 수정: 서버 응답에서 토큰 받도록 수정
+        console.log('Token:', data.accessToken)
+        navigation.navigate('HomeScreen', { accessToken: data.accessToken })
       } else {
         console.log('로그인 또는 회원가입에 실패했습니다.')
       }
-    } catch (e) {
-      console.log('로그인 실패 ', e)
+    } catch (error) {
+      console.log('로그인 실패 ', error)
     } finally {
       setLoading(false)
     }
